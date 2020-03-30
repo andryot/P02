@@ -105,7 +105,7 @@ public class DN05 {
                     break;
             }
 
-            // od kdaj je prvi argument pri tabeli (20x10) širina???? 30 minut izgubljenih z iskajem napake nepotrebno...
+            // od kdaj je prvi argument pri tabeli (20x10) širina?? 30 minut izgubljenih z iskajem napake nepotrebno...
             if ((x < 0 || x > labirint[0].length - 1) || (y < 0 || y > labirint.length - 1) || labirint[y][x] == 0)
                 return false;
         }
@@ -113,6 +113,7 @@ public class DN05 {
     }
 
     static int [][] table;
+    //nedokončano
     public static int[][] narediLabirint(int sirina, int visina, double verjetnost){
         table = new int[visina][sirina];
         for (int i = 0; i < visina; i++)
@@ -137,28 +138,9 @@ public class DN05 {
             }
 
         izrisiLabirint(table);
-        return new int[5][5];
+        return table;
     }
 
-
-
-    public static void naklucni(int x, int y, int x1, int y1){
-        Random rand = new Random();
-        int y2 = rand.nextInt(y);
-        while (y2 % 2 == 0)
-            y2 = rand.nextInt(y1 - y);
-
-        int x2 = rand.nextInt(x1 - x); // 2  0  3  2
-        while (x2 % 2 == 0)
-            x2 = rand.nextInt(x);
-        for (int j = y; j < y1; j++) {
-            table[y2][j] = 0;
-        }
-        for (int j = x; j < x1; j++) {
-            table[j][x2] = 0;
-        }
-
-    }
 
 
     public static void poisciResitev(int[][] maze) {
