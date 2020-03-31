@@ -15,8 +15,11 @@ public class DN05 {
             narediLabirint(Integer.parseInt(args[0]),Integer.parseInt(args[1]),Integer.parseInt(args[2]));
         }
         else if(args.length == 1){ // 3. del naloge
-            poisciResitev(preberiLabirint(args[0]));
-            shraniResitev(solutionForSaving, args[0]);
+            int [] solution = poisciResitev(preberiLabirint(args[0]));
+            for (int i = 0; i < solution.length; i++) {
+                System.out.print(solution[i]);
+            }
+            shraniResitev(solution, args[0]);
         }
     }
 
@@ -44,7 +47,6 @@ public class DN05 {
             return new int[0][0];
         }
     }
-
 
     public static void izrisiLabirint(int[][] labirint){
         System.out.print(new String(new char[labirint[0].length + 2]).replace("\0", "# ") + "\n");
@@ -142,29 +144,27 @@ public class DN05 {
     }
 
 
-
-    public static void poisciResitev(int[][] maze) {
+    public static int[] poisciResitev(int[][] maze) {
         boolean[][] wasHere = new boolean[maze.length][maze[0].length];
-        boolean[][] correctPath = new boolean[maze.length][maze[0].length];
 
         for (int i = 0; i < maze.length; i++)
             for (int j = 0; j < maze[i].length; j++){
                 wasHere[i][j] = false;
-                correctPath[i][j] = false;
             }
-        recursiveSolve(0, 0, maze, wasHere, correctPath);
+        recursiveSolve(0, 0, maze, wasHere);
+
         solutionForSaving = new int[solution.length()];
 
         for (int i = 0; i < solution.length(); i++) {
-            System.out.print(solution.charAt(i));
-            solutionForSaving[i] = solution.charAt(i);
+            solutionForSaving[i] = Integer.parseInt(String.valueOf(solution.charAt(i)));
         }
+        return solutionForSaving;
     }
 
     static StringBuffer solution = new StringBuffer("");
     static int [] solutionForSaving = new int[solution.length()];
 
-    public static boolean recursiveSolve(int x, int y, int[][] maze, boolean[][] wasHere, boolean[][] correctPath) {
+    public static boolean recursiveSolve(int x, int y, int[][] maze, boolean[][] wasHere) {
         if (x == maze.length - 1 && y == maze[0].length - 1)
             return true;
         if (maze[x][y] == 0 || wasHere[x][y])
@@ -173,30 +173,27 @@ public class DN05 {
         wasHere[x][y] = true;
 
         if (x != 0)
-            if (recursiveSolve(x-1, y, maze, wasHere, correctPath)) {
+            if (recursiveSolve(x-1, y, maze, wasHere)) {
                 solution.insert(0, "5");
-                correctPath[x][y] = true;
                 return true;
             }
         if (x != maze.length - 1)
-            if (recursiveSolve(x+1, y, maze,wasHere, correctPath)) {
-                correctPath[x][y] = true;
+            if (recursiveSolve(x+1, y, maze, wasHere)) {
                 solution.insert(0, "6");
                 return true;
             }
         if (y != 0)
-            if (recursiveSolve(x, y-1, maze, wasHere, correctPath)) {
-                correctPath[x][y] = true;
+            if (recursiveSolve(x, y-1, maze, wasHere)) {
                 solution.insert(0, "3");
                 return true;
             }
         if (y != maze[0].length - 1)
-            if (recursiveSolve(x, y+1, maze, wasHere, correctPath)) {
-                correctPath[x][y] = true;
+            if (recursiveSolve(x, y+1, maze, wasHere)) {
                 solution.insert(0, "4");
                 return true;
             }
         return false;
+
     }
 
 
